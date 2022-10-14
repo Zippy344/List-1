@@ -2,7 +2,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import math
-import statistics
 import numpy as np
 
 #stockInfo = yf.Ticker('PETR4.SA').info
@@ -31,11 +30,11 @@ df.to_csv('5 stock.csv', index=False)
 df1 = pd.DataFrame(pd.read_csv('5 stock.csv'))
 """
 # comparing asset growth by dividing by starting point
-df2 = pd.DataFrame(pd.read_csv('5 stock.csv'))
+dfcom = pd.DataFrame(pd.read_csv('5 stock.csv'))
 for i in range(5):
     temp = df2.iat[0,i]
     for j in range (1437):
-        df2.iat[j,i]=df1.iat[j,i]/temp
+        dfcom.iat[j,i]=df1.iat[j,i]/temp
 # much simpler way to divide columns
 for i in df1.columns:
    df1[i]=df1[i].div(df1[i][0])
@@ -57,20 +56,20 @@ MAf = pd.DataFrame(MAlist).T
 #MAf.plot()
 #plt.show()
 """
-"""
 #Alternative simpler moving average 5 days
+movavg = pd.DataFrame(df1)
 for i in df1.columns:
     df1[i+' average'] = df1[i].rolling(window=5).mean()
 df1.plot()
 plt.show()
 #Simple moving average 20 days
+df1 = pd.read_csv('5 stock.csv')
 for i in df1.columns:
     df1[i+' average'] = df1[i].rolling(window=20).mean()
 df1.plot()
 plt.show()
-"""
-"""
 #calculating annual returns
+df1 = pd.read_csv('5 stock.csv')
 for i in df1.columns:
     tempReturn=pow((df1.at[1436,i]/df1.at[0,i]),1/5.772)-1
     print("annual return (%) ",i," ",tempReturn*100)
@@ -81,7 +80,6 @@ for i in df1.columns:
 df2 = pd.Series(np.log(df1['ABEV3.SA']/(df1['ABEV3.SA'].shift(1))))
 df2.plot.hist()
 plt.show()
-"""
 #annual return mean and sd + sharpe + portfolio
 Rat = []
 sharpeS = 0
