@@ -8,8 +8,6 @@ def rand_weights(n):
     k = np.random.rand(n)
     return k / sum(k)
 #log returns
-for i in df1.columns:
-    df1[i]=np.log(df1[i]/df1[i].shift(1))
 port = pd.Series(df1['ABEV3.SA'].mul(0))
 mean = []
 std = []
@@ -26,6 +24,7 @@ for j in range (1000):
         t = temp[count]
         count += 1
         port = port.add(df1[i].mul(t))
+    port=np.log(port/port.shift(1))
     mean.append(np.mean(port))
     std.append(np.std(port))
     sharpe.append(np.mean(port)/np.std(port, ddof=1))
